@@ -1,0 +1,22 @@
+﻿@model List<WebApp.Models.Item>
+@{
+    ViewBag.Title = "TodoList";
+}
+
+<h2>bevásárlólista</h2>
+
+
+
+<ol>
+    @foreach (var item in Model)
+    {
+        if (item.Done)
+        {
+            <li><strike>@item.Name</strike></li>
+        }
+        else
+        {
+            <li>@item.Name</li>
+        }
+    }
+</ol>
