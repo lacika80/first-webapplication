@@ -12,11 +12,12 @@
     {
         if (item.Done)
         {
-            <li><strike>@item.Name</strike></li>
+    <li><strike>@item.Name</strike> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @Html.ActionLink("Delete", "Delete", new { id = item.Id })</li>
         }
         else
         {
-            <li>@item.Name</li>
+    <li>@item.Name @Html.ActionLink("Edit", "Edit", new { id = item.Id }) @Html.ActionLink("Delete", "Delete", new { id = item.Id })</li>
         }
     }
 </ol>
+@Html.ActionLink("Létrehozás", "Create")

@@ -9,15 +9,57 @@ namespace WebApp.Controllers
 {
     public class ToDoController : Controller
     {
+        Db db = new Db();
         public ActionResult Index()
         {
-            List<Item> lista = new List<Item>();
-            lista.Add(new Item() { Name = "só", Quantity = 2, Unit = "kg", Done = true });
-            lista.Add(new Item() { Name = "cukor", Quantity = 1, Unit = "kg", Done = false });
-            lista.Add(new Item() { Name = "liszt", Quantity = 500, Unit = "gramm", Done = false });
-            lista.Add(new Item() { Name = "kömény", Quantity = 1, Unit = "tasak", Done = false });
-            ViewBag.Lista = lista;
-            return View(lista);
+
+            return View(db.Items.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var item = db.Items.Single(x => x.Id == id);
+            return View(item);
+        }
+        [HttpPost]
+        public ActionResult Edit(int id, string name, bool Done)
+        {
+            var item = db.Items.Single(x => x.Id == id);
+            item.Name = name;
+            item.Done = Done;
+            db.SaveChanges();
+            return RedirectToAction("index");
+        }
+        [HttpPost]
+        public ActionResult Create(string name, bool IsDone)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                db.Items.Add(new Item() {Name = name, Quantity = 0, Unit = "kg", Done = IsDone });
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var item = db.Items.Single(x => x.Id == id);
+            return View(item);
+        }
+        [HttpPost]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var item = db.Items.Single(x => x.Id == id);
+            ideiglenes.lista.Remove(item);
+            db.SaveChanges();
+            return RedirectToAction("index");
         }
     }
 }
